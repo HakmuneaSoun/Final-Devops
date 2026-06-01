@@ -20,7 +20,6 @@ services:
         container_name: php_server
         volumes:
             - ./app:/var/www/html
-        command: php-fpm --poll
         depends_on:
             - mysql
         networks:
