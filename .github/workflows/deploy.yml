@@ -1,4 +1,4 @@
-name: Test Runner
+name: Auto Deploy
 
 on:
   push:
@@ -6,9 +6,24 @@ on:
       - main
 
 jobs:
-  test:
+  deploy:
     runs-on: self-hosted
 
     steps:
-      - name: Test
-        run: echo "Hello from Operation side"
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Deploy Application
+        shell: powershell
+        run: |
+          cd D:\Final-Project
+
+          git pull origin main
+
+          docker compose down
+
+          docker compose build --no-cache
+
+          docker compose up -d
+
+          docker image prune -f
